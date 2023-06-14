@@ -6,8 +6,12 @@ import Slider from '../../components/slider/Slider'
 import SaleCard from '../../components/Cards/saleCard/SaleCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt, faTag } from '@fortawesome/free-solid-svg-icons'
+import UseFetch from '../../hooks/UseFetch'
 
 const Home = () => {
+    
+    const {data, loading, error} = UseFetch("item");
+    
   return (
     <div className="mainContainer">
         <div className="header">
@@ -33,11 +37,14 @@ const Home = () => {
                 <div className='more'>View more</div>
             </div>
             <div className="saleItems">
-                <SaleCard isSale={true}/>
-                <SaleCard isSale={true}/>
-                <SaleCard isSale={true}/>
-                <SaleCard isSale={true}/>
-                <SaleCard isSale={true}/>
+                {loading ? (<p>Loading</p>) : (
+                    data.map((item)=>(
+                        console.log(item),
+                        console.log(item.name),
+                        <SaleCard isSale={true} itemDetails={item}/>
+                    ))
+                )
+                }
             </div>
         </div>
 
@@ -50,14 +57,19 @@ const Home = () => {
                 <div className='more'>View more</div>
             </div>
             <div className="justItems">
+                {
+                    data.map((item)=>(
+                        <SaleCard isSale={false} itemDetails={item} key={item._id}/>
+                    ))
+                }
+                {/* <SaleCard isSale={false}/>
                 <SaleCard isSale={false}/>
                 <SaleCard isSale={false}/>
                 <SaleCard isSale={false}/>
                 <SaleCard isSale={false}/>
                 <SaleCard isSale={false}/>
                 <SaleCard isSale={false}/>
-                <SaleCard isSale={false}/>
-                <SaleCard isSale={false}/>
+                <SaleCard isSale={false}/> */}
             </div>
         </div>
     </div>

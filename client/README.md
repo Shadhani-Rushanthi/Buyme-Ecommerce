@@ -15,3 +15,9 @@ npm i sass
 
 #add image slider
 npm i react-slideshow-image
+
+#image drop down using dropzone
+npm install --save react-dropzone
+
+#add to save images in binary
+npm i fs

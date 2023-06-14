@@ -1,11 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './categories.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faChevronDown, faDownLong, faList } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
 const Categories = ({isSmall}) => {
+  const navigate = useNavigate()
   const [isClick, setIsClick] = useState(false)
+  const [categories, setCategories] = useState([])
+
+  useEffect(()=>{
+    try {
+      axios.get('category')
+      .then((response) => {
+        setCategories(response.data)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  },[])
+
+  const viewCategoryItems = async () => {
+    // navigate('/Items', {state:{itemDetails:props.itemDetails, price:totalPrice, totalQty:qty}})
+    navigate('/Items')
+  }
+
   return (
     <>
         {isSmall ?  
@@ -16,19 +37,11 @@ const Categories = ({isSmall}) => {
             <FontAwesomeIcon icon={faChevronDown} className='down'/>
           </div> 
           {<div className="typesPopUp" style={{display: isClick? "flex" : "none"}}>
-                <p className="type">Women’s Fashion</p>
-                <p className="type">Men’s Fashion</p>
-                <p className="type">Phones & Telecommunincations</p>
-                <p className="type">Computer, Office & security</p>
-                <p className="type">Consumer Electronics</p>
-                <p className="type">Jewelry & Watches</p>
-                <p className="type">Jewelry & Watches</p>
-                <p className="type">Jewelry & Watches</p>
-                <p className="type">Jewelry & Watches</p>
-                <p className="type">Home, Pet & Appliances</p>
-                <p className="type">Bags & Shoes</p>
-                <p className="type">Toys, Kids & Babies</p>
-                <p className="type">Beauty</p>
+            { 
+              categories.map((cate)=>(
+                <p className="type" key={cate._id} onClick={viewCategoryItems}>{cate.category}</p>                    
+              ))
+            }
           </div>}
           </div>
         :
@@ -38,19 +51,11 @@ const Categories = ({isSmall}) => {
                 <h1 className="title">Categories</h1>
             </div> 
             <div className="types">
-                <p className="type">Women’s Fashion</p>
-                <p className="type">Men’s Fashion</p>
-                <p className="type">Phones & Telecommunincations</p>
-                <p className="type">Computer, Office & security</p>
-                <p className="type">Consumer Electronics</p>
-                <p className="type">Jewelry & Watches</p>
-                <p className="type">Jewelry & Watches</p>
-                <p className="type">Jewelry & Watches</p>
-                <p className="type">Jewelry & Watches</p>
-                <p className="type">Home, Pet & Appliances</p>
-                <p className="type">Bags & Shoes</p>
-                <p className="type">Toys, Kids & Babies</p>
-                <p className="type">Beauty</p>
+              { 
+                categories.map((cate)=>(
+                  <p className="type" key={cate._id} onClick={viewCategoryItems}>{cate.category}</p>                    
+                ))
+              }
             </div>
           </div>
       }

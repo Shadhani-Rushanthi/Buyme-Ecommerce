@@ -1,7 +1,10 @@
 import React from 'react'
 import './OrderedItem.scss'
+import { useLocation } from 'react-router-dom';
 
-const OrderedItem = () => {
+const OrderedItem = (props) => {
+
+
   return (
     <div className="orderdItem-wrapper">
       <div className="top-container">

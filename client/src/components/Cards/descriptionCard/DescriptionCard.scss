@@ -208,3 +208,10 @@
         background-color: $secondary-light !important;
     }
 }
+
+
+.button:disabled,
+.decrease:disabled,
+.increase:disabled{
+    background-color: $gray2-dark !important;
+}

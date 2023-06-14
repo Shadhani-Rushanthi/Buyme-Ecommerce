@@ -7,10 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFlag, faMessage, faPlus, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import SaleCard from '../../components/Cards/saleCard/SaleCard'
 import Pagination from '../../components/pagination/Pagination'
+import { useLocation } from 'react-router-dom'
 
-const Description = () => {
+const Description = ({options}) => {
   const [sectionType, setSectionType] = useState("description")
-
+  const location = useLocation()
+  console.log(location.state.itemDetails)
+  
   return (
     <div className="mainContainer">
         <div className="topWrapper">
@@ -21,7 +24,7 @@ const Description = () => {
                 <Searchbar/>
             </div>
         </div>
-        <DescriptionCard/>
+        <DescriptionCard itemDetails={location.state.itemDetails} />
         <div className="descriptionSection">
           <div className="shopDetails">
             <div className="shop">
@@ -56,10 +59,10 @@ const Description = () => {
             </div>
             <div className="shopTopSales">
               <div className="title">Top Sale</div>
+              {/* <SaleCard isSale={false}/>
               <SaleCard isSale={false}/>
               <SaleCard isSale={false}/>
-              <SaleCard isSale={false}/>
-              <SaleCard isSale={false}/>
+              <SaleCard isSale={false}/> */}
             </div>
           </div>
           </div>

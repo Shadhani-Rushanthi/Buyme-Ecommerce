@@ -3,11 +3,23 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faSun, faUser } from '@fortawesome/free-solid-svg-icons'
 import './Navbar.scss'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
-const Navbar = ({onThemeChange}) => {
+const Navbar = ({onThemeChange,onClickLogin, onClickShop, onClickRegister,userLogged, onUserLogged}) => {
     const navigate = useNavigate();
 
     const [popUp, setPopu] = useState(false)
+
+    const checkOrder = () =>{
+        try {
+            axios.get('order')
+            .then((response) => {
+                console.log(response)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
   return (
     <div className="navbar-container">
@@ -16,7 +28,7 @@ const Navbar = ({onThemeChange}) => {
                 <h1 className="logo" onClick={() => navigate("/")}>Buyme</h1>
             </div>
             <div className="listContainer">
-                <span className="listItem">Sell on Buyme</span>
+                <span className="listItem" onClick={onClickShop}>Sell on Buyme</span>
                 <span className="listItem">Track My orders</span>
                 <div className="listItem accountItem" >
                     <div  onClick={()=>setPopu(!popUp)}>
@@ -27,14 +39,25 @@ const Navbar = ({onThemeChange}) => {
                     
                 </div>
                 {<div className="accountPopup" style={{display: popUp? "flex" : "none"}}>
-                        <div className="log">
-                            <button className="button">Login</button>
-                            <button className="button">CreateAccount</button>
-                        </div>
+                        {!userLogged ? (
+                                <>
+                                <div className="log">
+                                    <button className="button" onClick={onClickLogin}>Login</button>
+                                    <button className="button" onClick={onClickRegister}>CreateAccount</button>
+                                </div>
+                                </>
+                            ) : (
+                                <>
+                                <div className="log">
+                                    <button className="button" onClick={onUserLogged}>Log Out</button>
+                                </div>
+                                </> 
+                            )
+                        }
                         <hr className='popupHr'/>
                         <div className="sub">
                             <div className="listItem">My Account</div>
-                            <div className="listItem">My Orders</div>
+                            <div className="listItem" onClick={checkOrder}>My Orders</div>
                             <div className="listItem">WishList</div>
                             <div className="listItem">My Account</div>
                             <div className="listItem">My Account</div>

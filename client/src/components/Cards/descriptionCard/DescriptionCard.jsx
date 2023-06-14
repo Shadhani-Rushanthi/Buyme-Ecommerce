@@ -5,33 +5,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 
-const DescriptionCard = () => {
+const DescriptionCard = (props) => {
     const navigate = useNavigate()
 
-    const [price, setPrice] = useState(1250)
-    const [shippingFee, setShippingFee] = useState(250)
-    const [qty, setQty] = useState(1);
+    const [price, setPrice] = useState(props.itemDetails.stock[0].itemPrice)
+    const [shippingFee, setShippingFee] = useState(props.itemDetails.stock[0].shippingFee)
+    const [qty, setQty] = useState(props.itemDetails.stock[0].stockQty > 0 ? 1 : 0);
+    const [stockEnd, setStockEnd] = useState(props.itemDetails.stock[0].stockQty > 0 ? false: true)
     const [totalPrice, setTotal] = useState(price+shippingFee)
 
+    console.log(props.itemDetails.stock[0].itemPrice+ "  price of item", props.itemDetails.stock[0].shippingFee)
     const changeQty = (type) =>{
         if(type === "i"){
             setQty(qty+1)
             setTotal(shippingFee + (price*(qty+1)))
         } else if(type === "d" && qty >1){
+            setStockEnd(false)
             setQty (qty-1);
             setTotal(shippingFee + (price*(qty-1)))
         }
     }
 
     const orderConfirm = () => {
-        navigate("/OrderConfirmation", {state:{price, shippingFee, qty, totalPrice}})
+        navigate('/OrderConfirmation', {state:{itemDetails:props.itemDetails, price:totalPrice, totalQty:qty}})
     }
 
     return (
         <div className="descrption-container">
             <div className="photo-section">
                 <div className="mainPhoto">
-                    <img src="https://static-01.daraz.lk/p/c0d61a43f884c905309646e6da64485b.jpg" alt="" className="mainIng" />
+                    <img src={props.itemDetails.mainImg} alt="" className="mainIng" />
                 </div>
                 <div className="subImages">
                     <img src="https://static-01.daraz.lk/p/2698d521522f269a4b2b8dfee371eb03.jpg" alt="sub" className="subImg" />
@@ -40,7 +43,7 @@ const DescriptionCard = () => {
                 </div>
             </div>
             <div className="desc-section">
-                <div className="name">Name</div>
+                <div className="name">{props.itemDetails.name}</div>
                 <div className="desc">descrption goes here</div>
                 <div className="reviews">
                     <div className="reviews">
@@ -49,7 +52,7 @@ const DescriptionCard = () => {
                         <FontAwesomeIcon icon={faStar} />
                         <FontAwesomeIcon icon={faStar} />
                         <FontAwesomeIcon icon={faStarHalfAlt} />
-                        4.9
+                        {props.itemDetails.rating}
                     </span>
                     </div>
                     <div className="comments">1 reviews</div>
@@ -64,9 +67,10 @@ const DescriptionCard = () => {
                 <div className="quantity">
                     <div className="qty">Quantity</div>
                     <div className="qtyFilter">
-                        <div className="decrease" onClick={()=>changeQty("d")}>-</div>
+                        <button className="decrease" onClick={()=>changeQty("d")} >-</button>
                         <input type="number" min={0} disabled value={qty} className='number'/>
-                        <div className="increase" onClick={()=>changeQty("i")}>+</div>
+                        <button className="increase" onClick={()=>changeQty("i")} itemPrice disabled={qty>=props.itemDetails.stock[0].stockQty} >+</button>
+                        <span style={{color:"red",fontSize:11}}>{stockEnd ? "Out of Stock" : ""}</span>
                     </div>
                 </div>
                 <div className="Fee">
@@ -78,8 +82,8 @@ const DescriptionCard = () => {
                     <div className="price total">Rs. {totalPrice}</div>
                 </div>
                 <div className="buttons">
-                    <button className="button btncart">Add to Card</button>
-                    <button className="button btnbuy" onClick={orderConfirm}>Buy now</button>
+                    <button className="button btncart" disabled={stockEnd} >Add to Card</button>
+                    <button className="button btnbuy" disabled={stockEnd} onClick={orderConfirm}>Buy now</button>
                 </div>
             </div>
         </div>

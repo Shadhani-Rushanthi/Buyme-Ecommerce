@@ -1,13 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './OrderConfimation.scss'
 import Categories from '../../components/categories/Categories'
 import Searchbar from '../../components/searchbar/Searchbar'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import OrderItem from '../../components/Cards/orderItem/OrderItem'
 import Summary from '../../components/Cards/summary/Summary'
+import { useLocation } from 'react-router-dom'
 
-const OrderConfimation = () => {
+
+const OrderConfimation = ({options}) => {
+    
+  const location = useLocation()
+
+  const [price, setPrice] = useState(location.state.itemDetails.stock[0].itemPrice)
+  const [shippingFee, setShippingFee] = useState(location.state.itemDetails.stock[0].shippingFee)
+  const [qty, setQty] = useState(location.state.totalQty);
+  const [salePrice, setSalePrice] = useState(location.state.itemDetails.isSale[0].salePrice)
+  const [totalPrice, setTotal] = useState(location.state.itemDetails.stock[0].itemPrice*qty)
+  const [subTotal, setSubTotal] = useState(totalPrice+shippingFee-salePrice)
+
+  const [toName, setToName] = useState("")
+  const [address, setAddress] = useState("")
+  const [email, setEmail] = useState("")
+  const [contact, setContact] = useState("")
+  const [payment, setPayment] = useState("")
+
+
+  const changeQty = (type) =>{
+      if(type === "i"){
+          setQty(qty+1)
+          setTotal(price*(qty+1))
+      } else if(type === "d" && qty >1){
+          setQty (qty-1);
+          setTotal(price*(qty-1))
+      }
+      setSubTotal(totalPrice+shippingFee-salePrice)
+  }
+
   return (
     <div className="mainContainer">
         <div className="topWrapper">
@@ -65,11 +93,12 @@ const OrderConfimation = () => {
                     </div>
                 </div>
                 <div className="item-details">
-                    <OrderItem isMyOrder={false}/>
+                    <OrderItem isMyOrder={false} itemDetails={location.state.itemDetails} totalQty={qty} price={totalPrice}
+                    onQtyChange={(type)=>changeQty(type)}/>
                 </div>
             </div>
             <div className="summary">
-                <Summary/>
+                <Summary  totalQty={qty} price={totalPrice} shippingFee={shippingFee} subTotal={subTotal} salePrice={salePrice}/>
             </div>
         </div>
     </div>

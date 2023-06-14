@@ -1,0 +1,105 @@
+@use '../../main';
+@import '../../variables';
+
+.mainContainer{
+    @include main.container;   
+    margin: 10px 0px;
+}
+
+.stockContainer, .addItemSection{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.categories{
+    flex: 1;
+    // background-color: blue !important;
+}
+
+.stockItems{
+    flex: 4;
+    // background-color: yellow;
+    padding: 64px 0px;
+}
+
+.imageUploader{
+    flex: 1;
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+}
+
+#mainImageUploader{
+}
+
+.mainImageInput{
+    // position: relative;
+    width: 100%;
+}
+
+#mainImage{
+
+}
+
+#mainImage{
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+    padding: 16px;
+}
+
+.itemDetails{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:8px;
+    font-size: 1rem;
+}
+
+.input{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.input label{
+    // background-color: yellow;
+    // flex: 1;
+    width:5000px;
+    font-weight: 500;
+}
+
+.input input, select{
+    flex: 2;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: black !important;
+    background-color: rgb(242, 241, 241) !important;
+}
+
+.addCate{
+    width: 50px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 12px 0px;
+}
+
+.error{
+    color: $error-dark !important;
+    @include main.LabelMedium();
+}

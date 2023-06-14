@@ -1,0 +1,162 @@
+@use '../../main';
+@import '../../variables';
+
+.registerContainer{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fbc12d52 !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    display: none;
+}
+
+.form-container{
+    width: 1024px;
+    max-width: 1024px;
+    height: 600px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.iconClose{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    
+    &:hover{
+        background-color: #fbc12d52;
+        // padding: 8px;
+    }
+}
+
+.registerImg{
+    flex: 1;
+    background-image: url("./loginImg.jpg");
+    background-size: cover;
+    height: 100%;
+    background-position: center;
+}
+
+
+.form-section{
+    flex: 1;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 32px 16px;
+}
+
+.loginhr{
+    width: 100%;
+    color: $gray2-dark;
+    text-align: center;
+    position: relative;
+    
+    &::before{
+        content:" ";
+        width: 40%;
+        height: 1px;
+        background: $gray2-dark;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0;
+    }
+    
+    &::after{
+        content:" ";
+        width: 40%;
+        height: 1px;
+        background: $gray2-dark;
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 0;
+      }
+}
+
+.form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px;
+}
+
+.input{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.input label{
+    flex: 1;
+}
+
+.input input{
+    flex: 2;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background-color: rgb(242, 241, 241) !important;
+}
+
+.auth-btn, .submit{
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 12px 0px;
+}
+
+.auth-btn{
+    border: 2px solid $primary-color !important;
+    transition: all .3s;
+    &:hover{
+        background-color:  $primary-color !important;
+    }
+}
+
+.submit{
+    background-color: $primary-color !important;
+    transition: all .3s;
+    &:hover{
+        border: 2px solid $primary-color !important;
+        background-color: white !important;
+    }
+}
+
+.error{
+    color: $error-dark !important;
+    @include main.LabelMedium();
+}
+
+.change{
+    color: $gray2-dark !important;
+    @include main.LabelLarge();
+    text-decoration: underline;
+    cursor: pointer;
+}
